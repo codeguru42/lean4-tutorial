@@ -25,7 +25,20 @@ example : p ∨ q ↔ q ∨ p :=
          show p ∨ q from (Or.intro_left q hp))))
 
 -- associativity of ∧ and ∨
-example : (p ∧ q) ∧ r ↔ p ∧ (q ∧ r) := sorry
+example : (p ∧ q) ∧ r ↔ p ∧ (q ∧ r) :=
+  Iff.intro
+    (fun h : (p ∧ q) ∧ r =>
+     have hp : p := And.left (And.left h)
+     have hq : q := And.right (And.left h)
+     have hr : r := And.right h
+     show p ∧ (q ∧ r) from
+     (And.intro hp (And.intro hq hr)))
+    (fun h : p ∧ (q ∧ r) =>
+     have hp : p := And.left h
+     have hq : q := And.left (And.right h)
+     have hr : r := And.right (And.right h)
+     show (p ∧ q) ∧ r from
+     (And.intro (And.intro hp hq) hr))
 example : (p ∨ q) ∨ r ↔ p ∨ (q ∨ r) := sorry
 
 -- distributivity
