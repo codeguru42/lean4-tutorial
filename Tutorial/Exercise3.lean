@@ -13,16 +13,16 @@ example : p ∨ q ↔ q ∨ p :=
      show q ∨ p
      from (h.elim
       (fun hp : p =>
-       show q ∨ p from (Or.intro_right q hp))
+       show q ∨ p from (Or.inr hp))
       (fun hq : q =>
-       show q ∨ p from (Or.intro_left p hq))))
+       show q ∨ p from (Or.inl hq))))
     (fun h: q ∨ p =>
       show p ∨ q
       from (h.elim
         (fun hq : q =>
-         show p ∨ q from (Or.intro_right p hq))
+         show p ∨ q from (Or.inr hq))
         (fun hp : p =>
-         show p ∨ q from (Or.intro_left q hp))))
+         show p ∨ q from (Or.inl hp))))
 
 -- associativity of ∧ and ∨
 example : (p ∧ q) ∧ r ↔ p ∧ (q ∧ r) :=
@@ -42,27 +42,27 @@ example : (p ∨ q) ∨ r ↔ p ∨ (q ∨ r) :=
        show p ∨ (q ∨ r)
        from (hpq.elim
         (fun hp : p =>
-         show p ∨ (q ∨ r) from Or.intro_left (q ∨ r) hp)
+         show p ∨ (q ∨ r) from Or.inl hp)
         (fun hq : q =>
-         show p ∨ (q ∨ r) from Or.intro_right p (Or.intro_left r hq))))
+         show p ∨ (q ∨ r) from Or.inr (Or.inl hq))))
       (fun hr : r =>
        show p ∨ (q ∨ r)
-       from (Or.intro_right p (Or.intro_right q hr)))))
+       from (Or.inr (Or.inr hr)))))
     (fun h : p ∨ (q ∨ r) =>
      show (p ∨ q) ∨ r
      from (h.elim
       (fun hp : p =>
        show (p ∨ q) ∨ r
-       from (Or.intro_left r (Or.intro_left q hp)))
+       from (Or.inl (Or.inl hp)))
       (fun hqr : q ∨ r =>
        show (p ∨ q) ∨ r
        from (hqr.elim
         (fun hq : q =>
          show (p ∨ q) ∨ r
-         from (Or.intro_left r (Or.intro_right p hq)))
+         from (Or.inl (Or.inr hq)))
         (fun hr : r =>
          show (p ∨ q) ∨ r
-         from (Or.intro_right (p ∨ q) hr))))))
+         from (Or.inr hr))))))
 
 -- distributivity
 example : p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r) := sorry
