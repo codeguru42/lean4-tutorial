@@ -10,15 +10,15 @@ example : p ∧ q ↔ q ∧ p :=
 example : p ∨ q ↔ q ∨ p :=
   Iff.intro
     (fun h: p ∨ q =>
-     show q ∨ p from
-      (Or.elim h
-       (fun hp : p =>
-        show q ∨ p from (Or.intro_right q hp))
-       (fun hq : q =>
-        show q ∨ p from (Or.intro_left p hq))))
+     show q ∨ p
+     from (Or.elim h
+      (fun hp : p =>
+       show q ∨ p from (Or.intro_right q hp))
+      (fun hq : q =>
+       show q ∨ p from (Or.intro_left p hq))))
     (fun h: q ∨ p =>
-      show p ∨ q from
-       (Or.elim h
+      show p ∨ q
+      from (Or.elim h
         (fun hq : q =>
          show p ∨ q from (Or.intro_right p hq))
         (fun hp : p =>
@@ -31,14 +31,14 @@ example : (p ∧ q) ∧ r ↔ p ∧ (q ∧ r) :=
      have hp : p := And.left (And.left h)
      have hq : q := And.right (And.left h)
      have hr : r := And.right h
-     show p ∧ (q ∧ r) from
-     (And.intro hp (And.intro hq hr)))
+     show p ∧ (q ∧ r)
+     from (And.intro hp (And.intro hq hr)))
     (fun h : p ∧ (q ∧ r) =>
      have hp : p := And.left h
      have hq : q := And.left (And.right h)
      have hr : r := And.right (And.right h)
-     show (p ∧ q) ∧ r from
-     (And.intro (And.intro hp hq) hr))
+     show (p ∧ q) ∧ r
+     from (And.intro (And.intro hp hq) hr))
 example : (p ∨ q) ∨ r ↔ p ∨ (q ∨ r) := sorry
 
 -- distributivity
