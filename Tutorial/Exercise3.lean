@@ -28,17 +28,11 @@ example : p ∨ q ↔ q ∨ p :=
 example : (p ∧ q) ∧ r ↔ p ∧ (q ∧ r) :=
   Iff.intro
     (fun h : (p ∧ q) ∧ r =>
-     have hp : p := h.left.left
-     have hq : q := h.left.right
-     have hr : r := h.right
      show p ∧ (q ∧ r)
-     from (And.intro hp (And.intro hq hr)))
+     from (And.intro h.left.left (And.intro h.left.right h.right)))
     (fun h : p ∧ (q ∧ r) =>
-     have hp : p := h.left
-     have hq : q := h.right.left
-     have hr : r := h.right.right
      show (p ∧ q) ∧ r
-     from (And.intro (And.intro hp hq) hr))
+     from (And.intro (And.intro h.left h.right.left) h.right.right))
 example : (p ∨ q) ∨ r ↔ p ∨ (q ∨ r) := sorry
 
 -- distributivity
