@@ -33,7 +33,36 @@ example : (p ∧ q) ∧ r ↔ p ∧ (q ∧ r) :=
     (fun h : p ∧ (q ∧ r) =>
      show (p ∧ q) ∧ r
      from (And.intro (And.intro h.left h.right.left) h.right.right))
-example : (p ∨ q) ∨ r ↔ p ∨ (q ∨ r) := sorry
+example : (p ∨ q) ∨ r ↔ p ∨ (q ∨ r) :=
+  Iff.intro
+    (fun h : (p ∨ q) ∨ r =>
+     show p ∨ (q ∨ r)
+     from (Or.elim h
+      (fun hpq : p ∨ q =>
+       show p ∨ (q ∨ r)
+       from (Or.elim hpq
+        (fun hp : p =>
+         show p ∨ (q ∨ r) from Or.intro_left (q ∨ r) hp)
+        (fun hq : q =>
+         show p ∨ (q ∨ r) from Or.intro_right p (Or.intro_left r hq))))
+      (fun hr : r =>
+       show p ∨ (q ∨ r)
+       from (Or.intro_right p (Or.intro_right q hr)))))
+    (fun h : p ∨ (q ∨ r) =>
+     show (p ∨ q) ∨ r
+     from (Or.elim h
+      (fun hp : p =>
+       show (p ∨ q) ∨ r
+       from (Or.intro_left r (Or.intro_left q hp)))
+      (fun hqr : q ∨ r =>
+       show (p ∨ q) ∨ r
+       from (Or.elim hqr
+        (fun hq : q =>
+         show (p ∨ q) ∨ r
+         from (Or.intro_left r (Or.intro_right p hq)))
+        (fun hr : r =>
+         show (p ∨ q) ∨ r
+         from (Or.intro_right (p ∨ q) hr))))))
 
 -- distributivity
 example : p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r) := sorry
