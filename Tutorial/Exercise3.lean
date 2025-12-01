@@ -4,9 +4,9 @@ variable (p q r : Prop)
 example : p ∧ q ↔ q ∧ p :=
   Iff.intro
     (fun h : p ∧ q =>
-     show q ∧ p from And.intro (And.right h) (And.left h))
+     show q ∧ p from And.intro h.right h.left)
     (fun h : q ∧ p =>
-     show p ∧ q from And.intro (And.right h) (And.left h))
+     show p ∧ q from And.intro h.right h.left)
 example : p ∨ q ↔ q ∨ p :=
   Iff.intro
     (fun h: p ∨ q =>
@@ -28,15 +28,15 @@ example : p ∨ q ↔ q ∨ p :=
 example : (p ∧ q) ∧ r ↔ p ∧ (q ∧ r) :=
   Iff.intro
     (fun h : (p ∧ q) ∧ r =>
-     have hp : p := And.left (And.left h)
-     have hq : q := And.right (And.left h)
-     have hr : r := And.right h
+     have hp : p := h.left.left
+     have hq : q := h.left.right
+     have hr : r := h.right
      show p ∧ (q ∧ r)
      from (And.intro hp (And.intro hq hr)))
     (fun h : p ∧ (q ∧ r) =>
-     have hp : p := And.left h
-     have hq : q := And.left (And.right h)
-     have hr : r := And.right (And.right h)
+     have hp : p := h.left
+     have hq : q := h.right.left
+     have hr : r := h.right.right
      show (p ∧ q) ∧ r
      from (And.intro (And.intro hp hq) hr))
 example : (p ∨ q) ∨ r ↔ p ∨ (q ∨ r) := sorry
