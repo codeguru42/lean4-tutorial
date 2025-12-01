@@ -11,14 +11,14 @@ example : p ∨ q ↔ q ∨ p :=
   Iff.intro
     (fun h: p ∨ q =>
      show q ∨ p
-     from (Or.elim h
+     from (h.elim
       (fun hp : p =>
        show q ∨ p from (Or.intro_right q hp))
       (fun hq : q =>
        show q ∨ p from (Or.intro_left p hq))))
     (fun h: q ∨ p =>
       show p ∨ q
-      from (Or.elim h
+      from (h.elim
         (fun hq : q =>
          show p ∨ q from (Or.intro_right p hq))
         (fun hp : p =>
@@ -37,10 +37,10 @@ example : (p ∨ q) ∨ r ↔ p ∨ (q ∨ r) :=
   Iff.intro
     (fun h : (p ∨ q) ∨ r =>
      show p ∨ (q ∨ r)
-     from (Or.elim h
+     from (h.elim
       (fun hpq : p ∨ q =>
        show p ∨ (q ∨ r)
-       from (Or.elim hpq
+       from (hpq.elim
         (fun hp : p =>
          show p ∨ (q ∨ r) from Or.intro_left (q ∨ r) hp)
         (fun hq : q =>
@@ -50,13 +50,13 @@ example : (p ∨ q) ∨ r ↔ p ∨ (q ∨ r) :=
        from (Or.intro_right p (Or.intro_right q hr)))))
     (fun h : p ∨ (q ∨ r) =>
      show (p ∨ q) ∨ r
-     from (Or.elim h
+     from (h.elim
       (fun hp : p =>
        show (p ∨ q) ∨ r
        from (Or.intro_left r (Or.intro_left q hp)))
       (fun hqr : q ∨ r =>
        show (p ∨ q) ∨ r
-       from (Or.elim hqr
+       from (hqr.elim
         (fun hq : q =>
          show (p ∨ q) ∨ r
          from (Or.intro_left r (Or.intro_right p hq)))
