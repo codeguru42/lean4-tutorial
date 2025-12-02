@@ -86,7 +86,11 @@ example : p ∧ ¬q → ¬(p → q) :=
   fun hpq : p → q => hpnq.right (hpq hpnq.left)
 example : ¬p → (p → q) :=
   fun hnp : ¬p => fun hp : p => (hnp hp).elim
-example : (¬p ∨ q) → (p → q) := sorry
+example : (¬p ∨ q) → (p → q) :=
+  fun hnpq : ¬p ∨ q =>
+  fun hp : p => hnpq.elim
+    (fun hnp : ¬p => (hnp hp).elim)
+    (fun hq : q => hq)
 example : p ∨ False ↔ p := sorry
 example : p ∧ False ↔ False := sorry
 example : (p → q) → (¬q → ¬p) := sorry
