@@ -68,23 +68,17 @@ example : (p ∨ q) ∨ r ↔ p ∨ (q ∨ r) :=
 example : p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r) :=
   Iff.intro
     (fun h : p ∧ (q ∨ r) =>
-     have hp : p := h.left
-     have hqr : (q ∨ r) := h.right
      show (p ∧ q) ∨ (p ∧ r)
-     from hqr.elim
-      (fun hq : q => Or.inl (And.intro hp hq))
-      (fun hr : r => Or.inr (And.intro hp hr)))
+     from h.right.elim
+      (fun hq : q => Or.inl (And.intro h.left hq))
+      (fun hr : r => Or.inr (And.intro h.left hr)))
     (fun h : (p ∧ q) ∨ (p ∧ r) => h.elim
      (fun hpq : (p ∧ q) =>
-      have hp : p := hpq.left
-      have hq : q := hpq.right
       show p ∧ (q ∨ r)
-      from And.intro hp (Or.inl hq))
+      from And.intro hpq.left (Or.inl hpq.right))
      (fun hpr : (p ∧ r) =>
-      have hp : p := hpr.left
-      have hr : r := hpr.right
       show p ∧ (q ∨ r)
-      from And.intro hp (Or.inr hr)))
+      from And.intro hpr.left (Or.inr hpr.right)))
 example : p ∨ (q ∧ r) ↔ (p ∨ q) ∧ (p ∨ r) := sorry
 
 -- other properties
