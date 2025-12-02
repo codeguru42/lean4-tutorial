@@ -65,7 +65,15 @@ example : ((p ∨ q) → r) ↔ (p → r) ∧ (q → r) :=
     (fun h : (p → r) ∧ (q → r) =>
      fun hpq : p ∨ q =>
      hpq.elim (fun hp : p => h.left hp) (fun hq : q => h.right hq))
-example : ¬(p ∨ q) ↔ ¬p ∧ ¬q := sorry
+example : ¬(p ∨ q) ↔ ¬p ∧ ¬q :=
+  Iff.intro
+    (fun h : ¬(p ∨ q) => And.intro
+      (fun hp : p => h (Or.inl hp))
+      (fun hq : q => h (Or.inr hq)))
+    (fun h : ¬p ∧ ¬q =>
+     fun hpq : p ∨ q => hpq.elim
+      (fun hp : p => h.left hp)
+      (fun hq : q => h.right hq))
 example : ¬p ∨ ¬q → ¬(p ∧ q) := sorry
 example : ¬(p ∧ ¬p) := sorry
 example : p ∧ ¬q → ¬(p → q) := sorry
