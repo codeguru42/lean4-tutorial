@@ -13,56 +13,56 @@ example : p ∨ q ↔ q ∨ p :=
      show q ∨ p
      from (h.elim
       (fun hp : p =>
-       show q ∨ p from (Or.inr hp))
+       show q ∨ p from Or.inr hp)
       (fun hq : q =>
-       show q ∨ p from (Or.inl hq))))
+       show q ∨ p from Or.inl hq)))
     (fun h: q ∨ p =>
       show p ∨ q
       from (h.elim
         (fun hq : q =>
-         show p ∨ q from (Or.inr hq))
+         show p ∨ q from Or.inr hq)
         (fun hp : p =>
-         show p ∨ q from (Or.inl hp))))
+         show p ∨ q from Or.inl hp)))
 
 -- associativity of ∧ and ∨
 example : (p ∧ q) ∧ r ↔ p ∧ (q ∧ r) :=
   Iff.intro
     (fun h : (p ∧ q) ∧ r =>
      show p ∧ (q ∧ r)
-     from (And.intro h.left.left (And.intro h.left.right h.right)))
+     from And.intro h.left.left (And.intro h.left.right h.right))
     (fun h : p ∧ (q ∧ r) =>
      show (p ∧ q) ∧ r
-     from (And.intro (And.intro h.left h.right.left) h.right.right))
+     from And.intro (And.intro h.left h.right.left) h.right.right)
 example : (p ∨ q) ∨ r ↔ p ∨ (q ∨ r) :=
   Iff.intro
     (fun h : (p ∨ q) ∨ r =>
      show p ∨ (q ∨ r)
-     from (h.elim
+     from h.elim
       (fun hpq : p ∨ q =>
        show p ∨ (q ∨ r)
-       from (hpq.elim
+       from hpq.elim
         (fun hp : p =>
          show p ∨ (q ∨ r) from Or.inl hp)
         (fun hq : q =>
-         show p ∨ (q ∨ r) from Or.inr (Or.inl hq))))
+         show p ∨ (q ∨ r) from Or.inr (Or.inl hq)))
       (fun hr : r =>
        show p ∨ (q ∨ r)
-       from (Or.inr (Or.inr hr)))))
+       from (Or.inr (Or.inr hr))))
     (fun h : p ∨ (q ∨ r) =>
      show (p ∨ q) ∨ r
      from (h.elim
       (fun hp : p =>
        show (p ∨ q) ∨ r
-       from (Or.inl (Or.inl hp)))
+       from Or.inl (Or.inl hp))
       (fun hqr : q ∨ r =>
        show (p ∨ q) ∨ r
-       from (hqr.elim
+       from hqr.elim
         (fun hq : q =>
          show (p ∨ q) ∨ r
-         from (Or.inl (Or.inr hq)))
+         from Or.inl (Or.inr hq))
         (fun hr : r =>
          show (p ∨ q) ∨ r
-         from (Or.inr hr))))))
+         from Or.inr hr))))
 
 -- distributivity
 example : p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r) := sorry
