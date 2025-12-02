@@ -79,7 +79,16 @@ example : p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r) :=
      (fun hpr : (p ∧ r) =>
       show p ∧ (q ∨ r)
       from And.intro hpr.left (Or.inr hpr.right)))
-example : p ∨ (q ∧ r) ↔ (p ∨ q) ∧ (p ∨ r) := sorry
+example : p ∨ (q ∧ r) ↔ (p ∨ q) ∧ (p ∨ r) :=
+  Iff.intro
+    (fun h : p ∨ (q ∧ r) => h.elim
+     (fun hp : p => And.intro (Or.inl hp) (Or.inl hp))
+     (fun hqr : q ∧ r => And.intro (Or.inr hqr.left) (Or.inr hqr.right)))
+    (fun h : (p ∨ q) ∧ (p ∨ r) => h.left.elim
+     (fun hp : p => Or.inl hp)
+     (fun hq : q => h.right.elim
+      (fun hp : p => Or.inl hp)
+      (fun hr : r => Or.inr (And.intro hq hr))))
 
 -- other properties
 example : (p → (q → r)) ↔ (p ∧ q → r) := sorry
