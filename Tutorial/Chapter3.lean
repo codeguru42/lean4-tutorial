@@ -126,7 +126,17 @@ section
 
   variable (p q r : Prop)
 
-  example : (p → q ∨ r) → ((p → q) ∨ (p → r)) := sorry
+  example : (p → q ∨ r) → ((p → q) ∨ (p → r)) :=
+    fun hpqr : p → q ∨ r =>
+      Or.elim (em q)
+        (fun hq : q => Or.inl (fun _ : p => hq))
+        (fun hnq : ¬q =>
+          Or.inr
+            (fun hp : p =>
+             have hqr : q ∨ r := (hpqr hp)
+             hqr.elim
+              (fun hq : q => absurd hq hnq)
+              (fun hr : r => hr)))
   example : ¬(p ∧ q) → ¬p ∨ ¬q := sorry
   example : ¬(p → q) → p ∧ ¬q := sorry
   example : (p → q) → (¬p ∨ q) := sorry
