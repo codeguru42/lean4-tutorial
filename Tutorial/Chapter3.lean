@@ -147,7 +147,11 @@ section
             absurd hpq hnpq)
           (fun hnq => Or.inr hnq))
         (fun hnp => Or.inl hnp)
-  example : ¬(p → q) → p ∧ ¬q := sorry
+  example : ¬(p → q) → p ∧ ¬q :=
+    fun hnpq =>
+      And.intro
+        (False.elim (fun hnp : ¬p => fun hnnp : ¬¬p => hnnp hnp))
+        (fun hq : q => hnpq (fun hp : p => hq))
   example : (p → q) → (¬p ∨ q) := sorry
   example : (¬q → ¬p) → (p → q) := sorry
   example : p ∨ ¬p := sorry
