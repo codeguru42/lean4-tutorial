@@ -150,13 +150,7 @@ section
   example : ¬(p → q) → p ∧ ¬q :=
     fun hnpq =>
       And.intro
-        (byCases
-          (fun hp : p => hp)
-          (fun hnp : ¬p =>
-           have hnnp : ¬¬p :=
-            fun hnp' : ¬p =>
-              hnpq (fun hp' : p => absurd hp' hnp')
-           show p from absurd hnp hnnp))
+        (byContradiction (fun hnp : ¬p => hnpq (fun hp : p => False.elim (absurd hp hnp))))
         (fun hq : q => hnpq (fun _ : p => hq))
   example : (p → q) → (¬p ∨ q) := sorry
   example : (¬q → ¬p) → (p → q) := sorry
