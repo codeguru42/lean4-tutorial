@@ -128,7 +128,7 @@ section
 
   example : (p → q ∨ r) → ((p → q) ∨ (p → r)) :=
     fun hpqr : p → q ∨ r =>
-      Or.elim (em q)
+      byCases
         (fun hq : q => Or.inl (fun _ : p => hq))
         (fun hnq : ¬q =>
           Or.inr
@@ -139,9 +139,9 @@ section
               (fun hr : r => hr)))
   example : ¬(p ∧ q) → ¬p ∨ ¬q :=
     (fun hnpq =>
-      Or.elim (em p)
+      byCases
         (fun hp =>
-          Or.elim (em q)
+          byCases
           (fun hq =>
             have hpq := (And.intro hp hq)
             absurd hpq hnpq)
