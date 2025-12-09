@@ -157,7 +157,12 @@ section
       byCases
         (fun hp : p => Or.inr (h hp))
         (fun hnp : ¬p => Or.inl hnp)
-  example : (¬q → ¬p) → (p → q) := sorry
+  example : (¬q → ¬p) → (p → q) :=
+    fun h : (¬q → ¬p) =>
+      fun hp : p =>
+        byCases
+          (fun hq : q => hq)
+          (fun hnq : ¬q => False.elim (absurd hp (h hnq)))
   example : p ∨ ¬p := sorry
   example : (((p → q) → p) → p) := sorry
 end
