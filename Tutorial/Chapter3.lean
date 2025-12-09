@@ -171,3 +171,5 @@ section
         (fun hp : p => hp)
         (fun hnp : ¬p => h (fun hp : p => absurd hp hnp))
 end
+
+example : ¬(p ↔ ¬p) := sorry
