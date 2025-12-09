@@ -152,7 +152,11 @@ section
       And.intro
         (byContradiction (fun hnp : ¬p => h (fun hp : p => False.elim (absurd hp hnp))))
         (fun hq : q => h (fun _ : p => hq))
-  example : (p → q) → (¬p ∨ q) := sorry
+  example : (p → q) → (¬p ∨ q) :=
+    fun h : p → q =>
+      byCases
+        (fun hp : p => Or.inr (h hp))
+        (fun hnp : ¬p => Or.inl hnp)
   example : (¬q → ¬p) → (p → q) := sorry
   example : p ∨ ¬p := sorry
   example : (((p → q) → p) → p) := sorry
