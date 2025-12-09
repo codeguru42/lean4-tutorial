@@ -75,8 +75,8 @@ section
           (fun hp : p => h (Or.inl hp))
           (fun hq : q => h (Or.inr hq)))
       (fun h : (p → r) ∧ (q → r) =>
-       fun hpq : p ∨ q =>
-       hpq.elim (fun hp : p => h.left hp) (fun hq : q => h.right hq))
+        fun hpq : p ∨ q =>
+          hpq.elim (fun hp : p => h.left hp) (fun hq : q => h.right hq))
   example : ¬(p ∨ q) ↔ ¬p ∧ ¬q :=
     Iff.intro
       (fun h : ¬(p ∨ q) =>
@@ -88,35 +88,35 @@ section
          (fun hp : p => h.left hp)
          (fun hq : q => h.right hq))
   example : ¬p ∨ ¬q → ¬(p ∧ q) :=
-    fun hnpnq : ¬p ∨ ¬q =>
-    fun hpq : p ∧ q =>
-      hnpnq.elim
-        (fun hnp : ¬p => hnp hpq.left)
-        (fun hnq : ¬q => hnq hpq.right)
+    fun h : ¬p ∨ ¬q =>
+      fun hpq : p ∧ q =>
+        h.elim
+          (fun hnp : ¬p => hnp hpq.left)
+          (fun hnq : ¬q => hnq hpq.right)
   example : ¬(p ∧ ¬p) :=
-    fun hpnp : p ∧ ¬p => hpnp.right hpnp.left
+    fun h : p ∧ ¬p => h.right h.left
   example : p ∧ ¬q → ¬(p → q) :=
-    fun hpnq : p ∧ ¬q =>
-    fun hpq : p → q => hpnq.right (hpq hpnq.left)
+    fun h : p ∧ ¬q =>
+      fun hpq : p → q => h.right (hpq h.left)
   example : ¬p → (p → q) :=
-    fun hnp : ¬p => fun hp : p => absurd hp hnp
+    fun h : ¬p => fun hp : p => absurd hp h
   example : (¬p ∨ q) → (p → q) :=
-    fun hnpq : ¬p ∨ q =>
-    fun hp : p =>
-      hnpq.elim
-        (fun hnp : ¬p => absurd hp hnp)
-        (fun hq : q => hq)
+    fun h : ¬p ∨ q =>
+      fun hp : p =>
+        h.elim
+          (fun hnp : ¬p => absurd hp hnp)
+          (fun hq : q => hq)
   example : p ∨ False ↔ p :=
     Iff.intro
-      (fun hpf : p ∨ False =>
-        hpf.elim
+      (fun h : p ∨ False =>
+        h.elim
           (fun hp : p => hp)
           (fun hf : False => hf.elim))
-      (fun hp : p => Or.inl hp)
+      (fun h : p => Or.inl h)
   example : p ∧ False ↔ False :=
     Iff.intro
-      (fun hpf : p ∧ False => hpf.right)
-      (fun hf : False => hf.elim)
+      (fun h : p ∧ False => h.right)
+      (fun h : False => h.elim)
   example : (p → q) → (¬q → ¬p) :=
     fun hpq : p → q => fun hnq : ¬q => fun hp : p => hnq (hpq hp)
 end
@@ -127,31 +127,31 @@ section
   variable (p q r : Prop)
 
   example : (p → q ∨ r) → ((p → q) ∨ (p → r)) :=
-    fun hpqr : p → q ∨ r =>
+    fun h : p → q ∨ r =>
       byCases
         (fun hq : q => Or.inl (fun _ : p => hq))
         (fun hnq : ¬q =>
           Or.inr
             (fun hp : p =>
-             have hqr : q ∨ r := (hpqr hp)
+             have hqr : q ∨ r := (h hp)
              hqr.elim
               (fun hq : q => absurd hq hnq)
               (fun hr : r => hr)))
   example : ¬(p ∧ q) → ¬p ∨ ¬q :=
-    fun hnpq =>
+    fun h =>
       byCases
         (fun hp =>
           byCases
           (fun hq =>
             have hpq := (And.intro hp hq)
-            absurd hpq hnpq)
+            absurd hpq h)
           (fun hnq => Or.inr hnq))
         (fun hnp => Or.inl hnp)
   example : ¬(p → q) → p ∧ ¬q :=
-    fun hnpq =>
+    fun h =>
       And.intro
-        (byContradiction (fun hnp : ¬p => hnpq (fun hp : p => False.elim (absurd hp hnp))))
-        (fun hq : q => hnpq (fun _ : p => hq))
+        (byContradiction (fun hnp : ¬p => h (fun hp : p => False.elim (absurd hp hnp))))
+        (fun hq : q => h (fun _ : p => hq))
   example : (p → q) → (¬p ∨ q) := sorry
   example : (¬q → ¬p) → (p → q) := sorry
   example : p ∨ ¬p := sorry
