@@ -165,5 +165,9 @@ section
           (fun hnq : ¬q => False.elim (absurd hp (h hnq)))
   example : p ∨ ¬p :=
     byCases (fun hp => Or.inl hp) (fun hnp => Or.inr hnp)
-  example : (((p → q) → p) → p) := sorry
+  example : (((p → q) → p) → p) :=
+    fun h =>
+      byCases
+        (fun hp : p => hp)
+        (fun hnp : ¬p => h (fun hp : p => False.elim (hnp hp)))
 end
