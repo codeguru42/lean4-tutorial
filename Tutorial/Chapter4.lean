@@ -12,7 +12,11 @@ example : (∀ x, p x ∧ q x) ↔ (∀ x, p x) ∧ (∀ x, q x) :=
     (fun h => fun h' => And.intro (h.left h') (h.right h'))
 example : (∀ x, p x → q x) → (∀ x, p x) → (∀ x, q x) :=
   fun h => fun g => fun x => (h x) (g x)
-example : (∀ x, p x) ∨ (∀ x, q x) → ∀ x, p x ∨ q x := sorry
+example : (∀ x, p x) ∨ (∀ x, q x) → ∀ x, p x ∨ q x :=
+  fun h => fun x =>
+    h.elim
+      (fun hp => Or.inl (hp x))
+      (fun hq => Or.inr (hq x))
 
 /-
  2. You should also try to understand why the reverse
