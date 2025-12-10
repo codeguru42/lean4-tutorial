@@ -10,7 +10,8 @@ example : (∀ x, p x ∧ q x) ↔ (∀ x, p x) ∧ (∀ x, q x) :=
          (fun hp => (h hp).left)
          (fun hq => (h hq).right))
     (fun h => fun h' => And.intro (h.left h') (h.right h'))
-example : (∀ x, p x → q x) → (∀ x, p x) → (∀ x, q x) := sorry
+example : (∀ x, p x → q x) → (∀ x, p x) → (∀ x, q x) :=
+  fun h => fun g => fun x => (h x) (g x)
 example : (∀ x, p x) ∨ (∀ x, q x) → ∀ x, p x ∨ q x := sorry
 
 /-
