@@ -50,7 +50,10 @@ example : (∀ x, p x ∨ r) ↔ (∀ x, p x) ∨ r :=
       h.elim
         (fun hp => fun x => Or.inl (hp x))
         (fun hr => fun x => Or.inr hr))
-example : (∀ x, r → p x) ↔ (r → ∀ x, p x) := sorry
+example : (∀ x, r → p x) ↔ (r → ∀ x, p x) :=
+  Iff.intro
+    (fun h => fun hr => fun x => (h x) hr)
+    (fun h => fun x => fun hr => (h hr) x)
 
 /-
 3. Consider the “barber paradox,” that is, the claim that in a
