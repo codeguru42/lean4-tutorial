@@ -172,4 +172,8 @@ section
         (fun hnp : ¬p => h (fun hp : p => absurd hp hnp))
 end
 
-example : ¬(p ↔ ¬p) := sorry
+example : ¬(p ↔ ¬p) :=
+  fun h : p ↔ ¬p =>
+    have hnp : ¬p := fun x => (h.mp x) x
+    have hp : p := h.mpr hnp
+    hnp hp
