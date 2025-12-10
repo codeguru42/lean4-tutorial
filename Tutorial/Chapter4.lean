@@ -35,7 +35,21 @@ example : α → ((∀ x : α, r) ↔ r) :=
     Iff.intro
       (fun r => r x)
       (fun r => fun _ => r)
-example : (∀ x, p x ∨ r) ↔ (∀ x, p x) ∨ r := sorry
+example : (∀ x, p x ∨ r) ↔ (∀ x, p x) ∨ r :=
+  Iff.intro
+    (fun h =>
+      Classical.byCases
+        (fun hr : r => Or.inr hr)
+        (fun hnr : ¬r =>
+          Or.inl
+            fun x =>
+               (h x).elim
+                (fun hx => hx)
+                (fun hr' => absurd hr' hnr)))
+    (fun h =>
+      h.elim
+        (fun hp => fun x => Or.inl (hp x))
+        (fun hr => fun x => Or.inr hr))
 example : (∀ x, r → p x) ↔ (r → ∀ x, p x) := sorry
 
 /-
