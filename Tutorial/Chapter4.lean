@@ -65,7 +65,10 @@ variable (men : Type) (barber : men)
 variable (shaves : men → men → Prop)
 
 example (h : ∀ x : men, shaves barber x ↔ ¬ shaves x x) : False :=
-  sorry
+  let t := h barber
+  have h₁ := fun hp => (t.mp hp) hp
+  have h₂ := t.mpr h₁
+  h₁ h₂
 
 /-
 4. Remember that, without any parameters, an expression of type
