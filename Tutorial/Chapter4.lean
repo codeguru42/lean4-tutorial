@@ -89,7 +89,8 @@ prime or any of the other statements, if necessary.
 section
   def even (n : Nat) : Prop := ∃x : Nat, n = 2*x
 
-  def prime (n : Nat) : Prop := sorry
+  def prime (n : Nat) : Prop :=
+    ∀ x : Nat, x ∣ n → (x > 1) ∧ ((x = 1) ∨ (x = n))
 
   def infinitely_many_primes : Prop := sorry
 
