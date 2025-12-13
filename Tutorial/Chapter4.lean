@@ -92,7 +92,8 @@ section
   def prime (n : Nat) : Prop :=
     ∀ x : Nat, x ∣ n → (x > 1) ∧ ((x = 1) ∨ (x = n))
 
-  def infinitely_many_primes : Prop := sorry
+  def infinitely_many_primes : Prop :=
+    ∀ n : Nat, ∃ p : Nat, p > n ∧ prime p
 
   def Fermat_prime (n : Nat) : Prop := sorry
 
