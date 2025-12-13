@@ -81,7 +81,7 @@ conjecture states that every odd number greater than 5 is
 the sum of three primes. Look up the definition of a Fermat
 prime or any of the other statements, if necessary.
  -/
-def even (n : Nat) : Prop := sorry
+def even (n : Nat) : Prop := ∃x : Nat, n = 2*x
 
 def prime (n : Nat) : Prop := sorry
 
