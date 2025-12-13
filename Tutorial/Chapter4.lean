@@ -1,23 +1,24 @@
 /-
 1. Prove these equivalences:
  -/
-variable (α : Type) (p q : α → Prop)
+section
+  variable (α : Type) (p q : α → Prop)
 
-example : (∀ x, p x ∧ q x) ↔ (∀ x, p x) ∧ (∀ x, q x) :=
-  Iff.intro
-    (fun h =>
-      And.intro
-         (fun hp => (h hp).left)
-         (fun hq => (h hq).right))
-    (fun h => fun h' => And.intro (h.left h') (h.right h'))
-example : (∀ x, p x → q x) → (∀ x, p x) → (∀ x, q x) :=
-  fun h => fun g => fun x => (h x) (g x)
-example : (∀ x, p x) ∨ (∀ x, q x) → ∀ x, p x ∨ q x :=
-  fun h => fun x =>
-    h.elim
-      (fun hp => Or.inl (hp x))
-      (fun hq => Or.inr (hq x))
-
+  example : (∀ x, p x ∧ q x) ↔ (∀ x, p x) ∧ (∀ x, q x) :=
+    Iff.intro
+      (fun h =>
+        And.intro
+          (fun hp => (h hp).left)
+          (fun hq => (h hq).right))
+      (fun h => fun h' => And.intro (h.left h') (h.right h'))
+  example : (∀ x, p x → q x) → (∀ x, p x) → (∀ x, q x) :=
+    fun h => fun g => fun x => (h x) (g x)
+  example : (∀ x, p x) ∨ (∀ x, q x) → ∀ x, p x ∨ q x :=
+    fun h => fun x =>
+      h.elim
+        (fun hp => Or.inl (hp x))
+        (fun hq => Or.inr (hq x))
+end
 /-
  2. You should also try to understand why the reverse
  implication is not derivable in the last example.
@@ -27,33 +28,35 @@ a universal quantifier, when it does not depend on the
 quantified variable. Try proving these (one direction of the
 second of these requires classical logic):
  -/
-variable (α : Type) (p q : α → Prop)
-variable (r : Prop)
+section
+  variable (α : Type) (p q : α → Prop)
+  variable (r : Prop)
 
-example : α → ((∀ x : α, r) ↔ r) :=
-  fun x =>
+  example : α → ((∀ x : α, r) ↔ r) :=
+    fun x =>
+      Iff.intro
+        (fun r => r x)
+        (fun r => fun _ => r)
+  example : (∀ x, p x ∨ r) ↔ (∀ x, p x) ∨ r :=
     Iff.intro
-      (fun r => r x)
-      (fun r => fun _ => r)
-example : (∀ x, p x ∨ r) ↔ (∀ x, p x) ∨ r :=
-  Iff.intro
-    (fun h =>
-      Classical.byCases
-        (fun hr : r => Or.inr hr)
-        (fun hnr : ¬r =>
-          Or.inl
-            fun x =>
-               (h x).elim
-                (fun hx => hx)
-                (fun hr' => absurd hr' hnr)))
-    (fun h =>
-      h.elim
-        (fun hp => fun x => Or.inl (hp x))
-        (fun hr => fun x => Or.inr hr))
-example : (∀ x, r → p x) ↔ (r → ∀ x, p x) :=
-  Iff.intro
-    (fun h => fun hr => fun x => (h x) hr)
-    (fun h => fun x => fun hr => (h hr) x)
+      (fun h =>
+        Classical.byCases
+          (fun hr : r => Or.inr hr)
+          (fun hnr : ¬r =>
+            Or.inl
+              fun x =>
+                (h x).elim
+                  (fun hx => hx)
+                  (fun hr' => absurd hr' hnr)))
+      (fun h =>
+        h.elim
+          (fun hp => fun x => Or.inl (hp x))
+          (fun hr => fun x => Or.inr hr))
+  example : (∀ x, r → p x) ↔ (r → ∀ x, p x) :=
+    Iff.intro
+      (fun h => fun hr => fun x => (h x) hr)
+      (fun h => fun x => fun hr => (h hr) x)
+end
 
 /-
 3. Consider the “barber paradox,” that is, the claim that in a
@@ -61,14 +64,16 @@ certain town there is a (male) barber that shaves all and
 only the men who do not shave themselves. Prove that this is
 a contradiction:
  -/
-variable (men : Type) (barber : men)
-variable (shaves : men → men → Prop)
+section
+  variable (men : Type) (barber : men)
+  variable (shaves : men → men → Prop)
 
-example (h : ∀ x : men, shaves barber x ↔ ¬ shaves x x) : False :=
-  let t := h barber
-  have h₁ := fun hp => (t.mp hp) hp
-  have h₂ := t.mpr h₁
-  h₁ h₂
+  example (h : ∀ x : men, shaves barber x ↔ ¬ shaves x x) : False :=
+    let t := h barber
+    have h₁ := fun hp => (t.mp hp) hp
+    have h₂ := t.mpr h₁
+    h₁ h₂
+end
 
 /-
 4. Remember that, without any parameters, an expression of type
@@ -81,23 +86,28 @@ conjecture states that every odd number greater than 5 is
 the sum of three primes. Look up the definition of a Fermat
 prime or any of the other statements, if necessary.
  -/
-def even (n : Nat) : Prop := ∃x : Nat, n = 2*x
+section
+  def even (n : Nat) : Prop := ∃x : Nat, n = 2*x
 
-def prime (n : Nat) : Prop := sorry
+  def prime (n : Nat) : Prop := sorry
 
-def infinitely_many_primes : Prop := sorry
+  def infinitely_many_primes : Prop := sorry
 
-def Fermat_prime (n : Nat) : Prop := sorry
+  def Fermat_prime (n : Nat) : Prop := sorry
 
-def infinitely_many_Fermat_primes : Prop := sorry
+  def infinitely_many_Fermat_primes : Prop := sorry
 
-def goldbach_conjecture : Prop := sorry
+  def goldbach_conjecture : Prop := sorry
 
-def Goldbach's_weak_conjecture : Prop := sorry
+  def Goldbach's_weak_conjecture : Prop := sorry
 
-def Fermat's_last_theorem : Prop := sorry
+  def Fermat's_last_theorem : Prop := sorry
+end
 
 /-
 5.  Prove as many of the identities listed in the Existential
  Quantifier section as you can.
  -/
+
+section
+end
