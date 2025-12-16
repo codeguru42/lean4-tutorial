@@ -95,7 +95,7 @@ section
   def infinitely_many_primes : Prop :=
     ∀ n : Nat, ∃ p : Nat, p > n ∧ prime p
 
-  def Fermat_prime (n : Nat) : Prop := sorry
+  def Fermat_prime (n : Nat) : Prop := prime (2^2^n + 1)
 
   def infinitely_many_Fermat_primes : Prop := sorry
 
@@ -112,4 +112,22 @@ end
  -/
 
 section
+  open Classical
+
+  variable (α : Type) (p q : α → Prop)
+  variable (r : Prop)
+
+  example : (∃ x : α, r) → r := sorry
+  example (a : α) : r → (∃ x : α, r) := sorry
+  example : (∃ x, p x ∧ r) ↔ (∃ x, p x) ∧ r := sorry
+  example : (∃ x, p x ∨ q x) ↔ (∃ x, p x) ∨ (∃ x, q x) := sorry
+
+  example : (∀ x, p x) ↔ ¬ (∃ x, ¬ p x) := sorry
+  example : (∃ x, p x) ↔ ¬ (∀ x, ¬ p x) := sorry
+  example : (¬ ∃ x, p x) ↔ (∀ x, ¬ p x) := sorry
+  example : (¬ ∀ x, p x) ↔ (∃ x, ¬ p x) := sorry
+
+  example : (∀ x, p x → r) ↔ (∃ x, p x) → r := sorry
+  example (a : α) : (∃ x, p x → r) ↔ (∀ x, p x) → r := sorry
+  example (a : α) : (∃ x, r → p x) ↔ (r → ∃ x, p x) := sorry
 end
