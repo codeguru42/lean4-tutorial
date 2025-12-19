@@ -119,7 +119,8 @@ section
 
   example : (∃ x : α, r) → r :=
     fun h => Exists.elim h (fun _ => fun hr => hr)
-  example (a : α) : r → (∃ x : α, r) := sorry
+  example (a : α) : r → (∃ x : α, r) :=
+    fun h => Exists.intro a h
   example : (∃ x, p x ∧ r) ↔ (∃ x, p x) ∧ r := sorry
   example : (∃ x, p x ∨ q x) ↔ (∃ x, p x) ∨ (∃ x, q x) := sorry
 
