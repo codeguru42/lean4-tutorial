@@ -121,7 +121,22 @@ section
     fun h => Exists.elim h (fun _ => fun hr => hr)
   example (a : α) : r → (∃ x : α, r) :=
     fun h => Exists.intro a h
-  example : (∃ x, p x ∧ r) ↔ (∃ x, p x) ∧ r := sorry
+  example : (∃ x, p x ∧ r) ↔ (∃ x, p x) ∧ r :=
+    Iff.intro
+      (fun h =>
+        Exists.elim
+          h
+          fun w => fun hw =>
+            And.intro
+              (Exists.intro w hw.left)
+              hw.right)
+      (fun h =>
+        Exists.elim
+          h.left
+          (fun w => fun hw =>
+            Exists.intro
+              w
+              (And.intro hw h.right)))
   example : (∃ x, p x ∨ q x) ↔ (∃ x, p x) ∨ (∃ x, q x) := sorry
 
   example : (∀ x, p x) ↔ ¬ (∃ x, ¬ p x) := sorry
