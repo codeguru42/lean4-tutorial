@@ -170,7 +170,10 @@ section
         byContradiction
           (fun hnp =>
             h (fun x hp => hnp (Exists.intro x hp))))
-  example : (¬ ∃ x, p x) ↔ (∀ x, ¬ p x) := sorry
+  example : (¬ ∃ x, p x) ↔ (∀ x, ¬ p x) :=
+    Iff.intro
+      (fun h x hnp => h (Exists.intro x hnp))
+      (fun h hnp => Exists.elim hnp (fun x hp => h x hp))
   example : (¬ ∀ x, p x) ↔ (∃ x, ¬ p x) := sorry
 
   example : (∀ x, p x → r) ↔ (∃ x, p x) → r := sorry
