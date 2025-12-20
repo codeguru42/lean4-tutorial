@@ -118,9 +118,9 @@ section
   variable (α : Type) (p q : α → Prop)
   variable (r : Prop)
 
-  example : (∃ x : α, r) → r :=
+  example : (∃ _ : α, r) → r :=
     fun h => Exists.elim h (fun _ hr => hr)
-  example (a : α) : r → (∃ x : α, r) :=
+  example (a : α) : r → (∃ _ : α, r) :=
     fun h => Exists.intro a h
   example : (∃ x, p x ∧ r) ↔ (∃ x, p x) ∧ r :=
     Iff.intro
