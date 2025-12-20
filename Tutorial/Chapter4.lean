@@ -10,15 +10,16 @@ section
         And.intro
           (fun hp => (h hp).left)
           (fun hq => (h hq).right))
-      (fun h => fun h' => And.intro (h.left h') (h.right h'))
+      (fun h h' => And.intro (h.left h') (h.right h'))
   example : (∀ x, p x → q x) → (∀ x, p x) → (∀ x, q x) :=
-    fun h => fun g => fun x => (h x) (g x)
+    fun h g x => (h x) (g x)
   example : (∀ x, p x) ∨ (∀ x, q x) → ∀ x, p x ∨ q x :=
-    fun h => fun x =>
+    fun h x =>
       h.elim
         (fun hp => Or.inl (hp x))
         (fun hq => Or.inr (hq x))
 end
+
 /-
  2. You should also try to understand why the reverse
  implication is not derivable in the last example.
@@ -36,7 +37,7 @@ section
     fun x =>
       Iff.intro
         (fun h => h x)
-        (fun h => fun _ => h)
+        (fun h _ => h)
   example : (∀ x, p x ∨ r) ↔ (∀ x, p x) ∨ r :=
     Iff.intro
       (fun h =>
@@ -50,12 +51,12 @@ section
                   (fun hr' => absurd hr' hnr)))
       (fun h =>
         h.elim
-          (fun hp => fun x => Or.inl (hp x))
-          (fun hr => fun _ => Or.inr hr))
+          (fun hp x => Or.inl (hp x))
+          (fun hr _ => Or.inr hr))
   example : (∀ x, r → p x) ↔ (r → ∀ x, p x) :=
     Iff.intro
-      (fun h => fun hr => fun x => (h x) hr)
-      (fun h => fun x => fun hr => (h hr) x)
+      (fun h hr x => (h x) hr)
+      (fun h x hr => (h hr) x)
 end
 
 /-
@@ -118,7 +119,7 @@ section
   variable (r : Prop)
 
   example : (∃ x : α, r) → r :=
-    fun h => Exists.elim h (fun _ => fun hr => hr)
+    fun h => Exists.elim h (fun _ hr => hr)
   example (a : α) : r → (∃ x : α, r) :=
     fun h => Exists.intro a h
   example : (∃ x, p x ∧ r) ↔ (∃ x, p x) ∧ r :=
@@ -126,14 +127,14 @@ section
       (fun h =>
         Exists.elim
           h
-          fun w => fun hw =>
+          fun w hw =>
             And.intro
               (Exists.intro w hw.left)
               hw.right)
       (fun h =>
         Exists.elim
           h.left
-          (fun w => fun hw =>
+          (fun w hw =>
             Exists.intro
               w
               (And.intro hw h.right)))
@@ -142,7 +143,7 @@ section
       (fun h =>
         Exists.elim
           h
-          (fun w => fun hw =>
+          (fun w hw =>
             hw.elim
               (fun hp => Or.inl (Exists.intro w hp) )
               (fun hq => Or.inr (Exists.intro w hq))))
@@ -151,29 +152,24 @@ section
           (fun hp =>
             Exists.elim
               hp
-              (fun w => fun hw =>
-                Exists.intro w (Or.inl hw)))
+              (fun w hw => Exists.intro w (Or.inl hw)))
           (fun hq =>
             Exists.elim
               hq
-              (fun w => fun hw =>
-                Exists.intro w (Or.inr hw))))
+              (fun w hw => Exists.intro w (Or.inr hw))))
   example : (∀ x, p x) ↔ ¬ (∃ x, ¬ p x) :=
     Iff.intro
-      (fun h => fun hnp =>
-        Exists.elim hnp (fun w => fun hw => hw (h w)))
-      (fun h => fun x =>
+      (fun h hnp =>
+        Exists.elim hnp (fun w hw => hw (h w)))
+      (fun h x =>
         byContradiction (fun hnp => h (Exists.intro x hnp)))
   example : (∃ x, p x) ↔ ¬ (∀ x, ¬ p x) :=
     Iff.intro
-      (fun h =>
-        Exists.elim
-          h
-          (fun w => fun hw => fun hnp => (hnp w) hw))
+      (fun h => Exists.elim h (fun w hw hnp => hnp w hw))
       (fun h =>
         byContradiction
           (fun hnp =>
-            h (fun x => fun hp => hnp (Exists.intro x hp))))
+            h (fun x hp => hnp (Exists.intro x hp))))
   example : (¬ ∃ x, p x) ↔ (∀ x, ¬ p x) := sorry
   example : (¬ ∀ x, p x) ↔ (∃ x, ¬ p x) := sorry
 
