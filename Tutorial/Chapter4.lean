@@ -32,11 +32,11 @@ section
   variable (α : Type) (p q : α → Prop)
   variable (r : Prop)
 
-  example : α → ((∀ x : α, r) ↔ r) :=
+  example : α → ((∀ _ : α, r) ↔ r) :=
     fun x =>
       Iff.intro
-        (fun r => r x)
-        (fun r => fun _ => r)
+        (fun h => h x)
+        (fun h => fun _ => h)
   example : (∀ x, p x ∨ r) ↔ (∀ x, p x) ∨ r :=
     Iff.intro
       (fun h =>
@@ -51,7 +51,7 @@ section
       (fun h =>
         h.elim
           (fun hp => fun x => Or.inl (hp x))
-          (fun hr => fun x => Or.inr hr))
+          (fun hr => fun _ => Or.inr hr))
   example : (∀ x, r → p x) ↔ (r → ∀ x, p x) :=
     Iff.intro
       (fun h => fun hr => fun x => (h x) hr)
