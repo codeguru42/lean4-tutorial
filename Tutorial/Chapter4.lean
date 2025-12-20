@@ -137,8 +137,27 @@ section
             Exists.intro
               w
               (And.intro hw h.right)))
-  example : (∃ x, p x ∨ q x) ↔ (∃ x, p x) ∨ (∃ x, q x) := sorry
-
+  example : (∃ x, p x ∨ q x) ↔ (∃ x, p x) ∨ (∃ x, q x) :=
+    Iff.intro
+      (fun h =>
+        Exists.elim
+          h
+          (fun w => fun hw =>
+            hw.elim
+              (fun hp => Or.inl (Exists.intro w hp) )
+              (fun hq => Or.inr (Exists.intro w hq))))
+      (fun h =>
+        h.elim
+          (fun hp =>
+            Exists.elim
+              hp
+              (fun w => fun hw =>
+                Exists.intro w (Or.inl hw)))
+          (fun hq =>
+            Exists.elim
+              hq
+              (fun w => fun hw =>
+                Exists.intro w (Or.inr hw))))
   example : (∀ x, p x) ↔ ¬ (∃ x, ¬ p x) := sorry
   example : (∃ x, p x) ↔ ¬ (∀ x, ¬ p x) := sorry
   example : (¬ ∃ x, p x) ↔ (∀ x, ¬ p x) := sorry
