@@ -119,21 +119,19 @@ section
   variable (r : Prop)
 
   example : (∃ _ : α, r) → r :=
-    fun h => Exists.elim h (fun _ hr => hr)
+    fun h => h.elim (fun _ hr => hr)
   example (a : α) : r → (∃ _ : α, r) :=
     fun h => Exists.intro a h
   example : (∃ x, p x ∧ r) ↔ (∃ x, p x) ∧ r :=
     Iff.intro
       (fun h =>
-        Exists.elim
-          h
+        h.elim
           fun w hw =>
             And.intro
               (Exists.intro w hw.left)
               hw.right)
       (fun h =>
-        Exists.elim
-          h.left
+        h.left.elim
           (fun w hw =>
             Exists.intro
               w
@@ -141,8 +139,7 @@ section
   example : (∃ x, p x ∨ q x) ↔ (∃ x, p x) ∨ (∃ x, q x) :=
     Iff.intro
       (fun h =>
-        Exists.elim
-          h
+        h.elim
           (fun w hw =>
             hw.elim
               (fun hp => Or.inl (Exists.intro w hp) )
@@ -150,23 +147,21 @@ section
       (fun h =>
         h.elim
           (fun hp =>
-            Exists.elim
-              hp
+            hp.elim
               (fun w hw => Exists.intro w (Or.inl hw)))
           (fun hq =>
-            Exists.elim
-              hq
+            hq.elim
               (fun w hw => Exists.intro w (Or.inr hw))))
 
   example : (∀ x, p x) ↔ ¬ (∃ x, ¬ p x) :=
     Iff.intro
       (fun h hnp =>
-        Exists.elim hnp (fun w hw => hw (h w)))
+        hnp.elim (fun w hw => hw (h w)))
       (fun h x =>
         byContradiction (fun hnp => h (Exists.intro x hnp)))
   example : (∃ x, p x) ↔ ¬ (∀ x, ¬ p x) :=
     Iff.intro
-      (fun h => Exists.elim h (fun w hw hnp => hnp w hw))
+      (fun h => h.elim (fun w hw hnp => hnp w hw))
       (fun h =>
         byContradiction
           (fun hnp =>
@@ -174,7 +169,7 @@ section
   example : (¬ ∃ x, p x) ↔ (∀ x, ¬ p x) :=
     Iff.intro
       (fun h x hnp => h (Exists.intro x hnp))
-      (fun h hnp => Exists.elim hnp (fun x hp => h x hp))
+      (fun h hnp => hnp.elim (fun x hp => h x hp))
   example : (¬ ∀ x, p x) ↔ (∃ x, ¬ p x) :=
     Iff.intro
       (fun h =>
@@ -184,7 +179,7 @@ section
             (fun x =>
               byContradiction
                 (fun hnp => hnx (Exists.intro x hnp)))))
-      (fun h => Exists.elim h (fun x hnp hp => hnp (hp x)))
+      (fun h => h.elim (fun x hnp hp => hnp (hp x)))
 
   example : (∀ x, p x → r) ↔ (∃ x, p x) → r := sorry
   example (a : α) : (∃ x, p x → r) ↔ (∀ x, p x) → r := sorry
