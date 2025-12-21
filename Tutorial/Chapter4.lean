@@ -189,9 +189,22 @@ section
     Iff.intro
       (fun h hx => h.elim (fun x hp => hp (hx x)))
       (fun h =>
-        byContradiction
-          (fun hnp =>
-            hnp
-            (Exists.intro a (fun hp => h (fun x => sorry)))))
+        byCases
+          (fun hx : ∀x, p x =>
+            Exists.intro
+              a
+              (fun _ => h hx))
+          (fun hnx : ¬∀x, p x =>
+            byContradiction
+              fun hnx' =>
+                hnx (fun x =>
+                  byContradiction
+                    fun hnp =>
+                      hnx'
+                        (Exists.intro
+                          x
+                          (fun hp =>
+                            byContradiction
+                              (fun _ => hnp hp))))))
   example (a : α) : (∃ x, r → p x) ↔ (r → ∃ x, p x) := sorry
 end
