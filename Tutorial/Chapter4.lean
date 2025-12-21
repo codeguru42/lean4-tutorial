@@ -12,7 +12,7 @@ section
           (fun hq => (h hq).right))
       (fun h h' => And.intro (h.left h') (h.right h'))
   example : (∀ x, p x → q x) → (∀ x, p x) → (∀ x, q x) :=
-    fun h g x => (h x) (g x)
+    fun h g x => h x (g x)
   example : (∀ x, p x) ∨ (∀ x, q x) → ∀ x, p x ∨ q x :=
     fun h x =>
       h.elim
@@ -55,8 +55,8 @@ section
           (fun hr _ => Or.inr hr))
   example : (∀ x, r → p x) ↔ (r → ∀ x, p x) :=
     Iff.intro
-      (fun h hr x => (h x) hr)
-      (fun h x hr => (h hr) x)
+      (fun h hr x => h x hr)
+      (fun h x hr => h hr x)
 end
 
 /-
@@ -71,7 +71,7 @@ section
 
   example (h : ∀ x : men, shaves barber x ↔ ¬ shaves x x) : False :=
     let t := h barber
-    have h₁ := fun hp => (t.mp hp) hp
+    have h₁ := fun hp => t.mp hp hp
     have h₂ := t.mpr h₁
     h₁ h₂
 end
@@ -183,7 +183,7 @@ section
 
   example : (∀ x, p x → r) ↔ (∃ x, p x) → r :=
     Iff.intro
-      (fun h hx => (hx.elim (fun x hp => h x hp)))
+      (fun h hx => hx.elim (fun x hp => h x hp))
       (fun h x hp => h (Exists.intro x hp))
   example (a : α) : (∃ x, p x → r) ↔ (∀ x, p x) → r := sorry
   example (a : α) : (∃ x, r → p x) ↔ (r → ∃ x, p x) := sorry
