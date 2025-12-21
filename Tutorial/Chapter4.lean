@@ -157,6 +157,7 @@ section
             Exists.elim
               hq
               (fun w hw => Exists.intro w (Or.inr hw))))
+
   example : (∀ x, p x) ↔ ¬ (∃ x, ¬ p x) :=
     Iff.intro
       (fun h hnp =>
@@ -176,8 +177,15 @@ section
       (fun h hnp => Exists.elim hnp (fun x hp => h x hp))
   example : (¬ ∀ x, p x) ↔ (∃ x, ¬ p x) :=
     Iff.intro
-      (fun h => byContradiction (fun hnp => sorry))
+      (fun h =>
+        byContradiction
+          (fun hnx =>
+            h
+            (fun x =>
+              byContradiction
+                (fun hnp => hnx (Exists.intro x hnp)))))
       (fun h => Exists.elim h (fun x hnp hp => hnp (hp x)))
+
   example : (∀ x, p x → r) ↔ (∃ x, p x) → r := sorry
   example (a : α) : (∃ x, p x → r) ↔ (∀ x, p x) → r := sorry
   example (a : α) : (∃ x, r → p x) ↔ (r → ∃ x, p x) := sorry
