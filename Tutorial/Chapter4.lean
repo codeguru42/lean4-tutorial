@@ -206,5 +206,19 @@ section
                           (fun hp =>
                             byContradiction
                               (fun _ => hnp hp))))))
-  example (a : α) : (∃ x, r → p x) ↔ (r → ∃ x, p x) := sorry
+  example (a : α) : (∃ x, r → p x) ↔ (r → ∃ x, p x) :=
+    Iff.intro
+      (fun h hr => h.elim (fun w hr' => (Exists.intro w (hr' hr))))
+      (fun h =>
+        byCases
+          (fun hr : r =>
+            (h hr).elim
+              (fun w hp =>
+                Exists.intro
+                  w
+                  (fun _ => hp)))
+          (fun hnr : ¬r =>
+            Exists.intro
+              a
+              (fun hr => absurd hr hnr)))
 end
