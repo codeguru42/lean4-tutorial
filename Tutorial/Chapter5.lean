@@ -6,23 +6,19 @@ section
     -- commutativity of ∧ and ∨
     example : p ∧ q ↔ q ∧ p := by
       apply Iff.intro
-      case mp =>
-        intro h
+      · intro h
         exact And.intro (And.right h) (And.left h)
-      case mpr =>
-        intro h
+      · intro h
         exact And.intro (And.right h) (And.left h)
     example : p ∨ q ↔ q ∨ p := by
       apply Iff.intro
-      case mp =>
-        intro h
+      · intro h
         apply Or.elim h
         case left =>
           exact Or.inr
         case right =>
           exact Or.inl
-      case mpr =>
-        intro h
+      · intro h
         apply Or.elim h
         case left =>
           exact Or.inr
@@ -32,11 +28,9 @@ section
     -- associativity of ∧ and ∨
     example : (p ∧ q) ∧ r ↔ p ∧ (q ∧ r) := by
       apply Iff.intro
-      case mp =>
-        intro h
+      · intro h
         exact And.intro h.left.left (And.intro h.left.right h.right)
-      case mpr =>
-        intro h
+      · intro h
         exact And.intro (And.intro h.left h.right.left) h.right.right
     example : (p ∨ q) ∨ r ↔ p ∨ (q ∨ r) := sorry
 
