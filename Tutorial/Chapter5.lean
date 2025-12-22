@@ -4,7 +4,14 @@ section
     variable (p q r : Prop)
 
     -- commutativity of ∧ and ∨
-    example : p ∧ q ↔ q ∧ p := sorry
+    example : p ∧ q ↔ q ∧ p := by
+      apply Iff.intro
+      case mp =>
+        intro h
+        apply And.intro (And.right h) (And.left h)
+      case mpr =>
+        intro h
+        apply And.intro (And.right h) (And.left h)
     example : p ∨ q ↔ q ∨ p := sorry
 
     -- associativity of ∧ and ∨
