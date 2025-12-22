@@ -119,7 +119,11 @@ section
     example : ¬p → (p → q) := by
       intro hnp hp
       exact absurd hp hnp
-    example : (¬p ∨ q) → (p → q) := sorry
+    example : (¬p ∨ q) → (p → q) := by
+      intro h hp
+      cases h with
+      | inl hnp => exact absurd hp hnp
+      | inr hq => exact hq
     example : p ∨ False ↔ p := sorry
     example : p ∧ False ↔ False := sorry
     example : (p → q) → (¬q → ¬p) := sorry
