@@ -8,36 +8,36 @@ section
       apply Iff.intro
       case mp =>
         intro h
-        apply And.intro (And.right h) (And.left h)
+        exact And.intro (And.right h) (And.left h)
       case mpr =>
         intro h
-        apply And.intro (And.right h) (And.left h)
+        exact And.intro (And.right h) (And.left h)
     example : p ∨ q ↔ q ∨ p := by
       apply Iff.intro
       case mp =>
         intro h
         apply Or.elim h
         case left =>
-          apply Or.inr
+          exact Or.inr
         case right =>
-          apply Or.inl
+          exact Or.inl
       case mpr =>
         intro h
         apply Or.elim h
         case left =>
-          apply Or.inr
+          exact Or.inr
         case right =>
-          apply Or.inl
+          exact Or.inl
 
     -- associativity of ∧ and ∨
     example : (p ∧ q) ∧ r ↔ p ∧ (q ∧ r) := by
       apply Iff.intro
       case mp =>
         intro h
-        apply And.intro h.left.left (And.intro h.left.right h.right)
+        exact And.intro h.left.left (And.intro h.left.right h.right)
       case mpr =>
         intro h
-        apply And.intro (And.intro h.left h.right.left) h.right.right
+        exact And.intro (And.intro h.left h.right.left) h.right.right
     example : (p ∨ q) ∨ r ↔ p ∨ (q ∨ r) := sorry
 
     -- distributivity
