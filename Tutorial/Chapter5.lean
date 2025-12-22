@@ -110,7 +110,9 @@ section
       cases h with
       | inl hnp => exact hnp hpq.left
       | inr hnq => exact hnq hpq.right
-    example : ¬(p ∧ ¬p) := sorry
+    example : ¬(p ∧ ¬p) := by
+      intro h
+      exact h.right h.left
     example : p ∧ ¬q → ¬(p → q) := sorry
     example : ¬p → (p → q) := sorry
     example : (¬p ∨ q) → (p → q) := sorry
