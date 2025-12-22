@@ -138,7 +138,9 @@ section
         exact h.right
       · intro h
         exact h.elim
-    example : (p → q) → (¬q → ¬p) := sorry
+    example : (p → q) → (¬q → ¬p) := by
+      intro h hnq hp
+      exact hnq (h hp)
   end
 
   section
