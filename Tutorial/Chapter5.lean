@@ -132,7 +132,12 @@ section
         | inr hf => exact hf.elim
       · intro h
         exact Or.inl h
-    example : p ∧ False ↔ False := sorry
+    example : p ∧ False ↔ False := by
+      apply Iff.intro
+      · intro h
+        exact h.right
+      · intro h
+        exact h.elim
     example : (p → q) → (¬q → ¬p) := sorry
   end
 
