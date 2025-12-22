@@ -124,7 +124,14 @@ section
       cases h with
       | inl hnp => exact absurd hp hnp
       | inr hq => exact hq
-    example : p ∨ False ↔ p := sorry
+    example : p ∨ False ↔ p := by
+      apply Iff.intro
+      · intro h
+        cases h with
+        | inl hp => exact hp
+        | inr hf => exact hf.elim
+      · intro h
+        exact Or.inl h
     example : p ∧ False ↔ False := sorry
     example : (p → q) → (¬q → ¬p) := sorry
   end
