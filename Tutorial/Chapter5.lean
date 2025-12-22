@@ -32,7 +32,22 @@ section
         exact And.intro h.left.left (And.intro h.left.right h.right)
       · intro h
         exact And.intro (And.intro h.left h.right.left) h.right.right
-    example : (p ∨ q) ∨ r ↔ p ∨ (q ∨ r) := sorry
+    example : (p ∨ q) ∨ r ↔ p ∨ (q ∨ r) := by
+      apply Iff.intro
+      · intro h
+        cases h with
+        | inl hpq =>
+          cases hpq with
+          | inl hp => exact Or.inl hp
+          | inr hq => exact Or.inr (Or.inl hq)
+        | inr hr => exact Or.inr (Or.inr hr)
+      · intro h
+        cases h with
+        | inl hp => exact Or.inl (Or.inl hp)
+        | inr hqr =>
+          cases hqr with
+          | inl hq => exact Or.inl (Or.inr hq)
+          | inr hr => exact Or.inr hr
 
     -- distributivity
     example : p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r) := sorry
