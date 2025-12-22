@@ -75,7 +75,12 @@ section
           | inr hr => exact Or.inr (And.intro hq hr)
 
     -- other properties
-    example : (p → (q → r)) ↔ (p ∧ q → r) := sorry
+    example : (p → (q → r)) ↔ (p ∧ q → r) := by
+      apply Iff.intro
+      · intro h hpq
+        exact h hpq.left hpq.right
+      · intro h hp hq
+        exact h (And.intro hp hq)
     example : ((p ∨ q) → r) ↔ (p → r) ∧ (q → r) := sorry
     example : ¬(p ∨ q) ↔ ¬p ∧ ¬q := sorry
     example : ¬p ∨ ¬q → ¬(p ∧ q) := sorry
