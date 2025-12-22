@@ -12,7 +12,22 @@ section
       case mpr =>
         intro h
         apply And.intro (And.right h) (And.left h)
-    example : p ∨ q ↔ q ∨ p := sorry
+    example : p ∨ q ↔ q ∨ p := by
+      apply Iff.intro
+      case mp =>
+        intro h
+        apply Or.elim h
+        case left =>
+          apply Or.inr
+        case right =>
+          apply Or.inl
+      case mpr =>
+        intro h
+        apply Or.elim h
+        case left =>
+          apply Or.inr
+        case right =>
+          apply Or.inl
 
     -- associativity of ∧ and ∨
     example : (p ∧ q) ∧ r ↔ p ∧ (q ∧ r) := sorry
