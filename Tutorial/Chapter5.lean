@@ -113,8 +113,10 @@ section
     example : ¬(p ∧ ¬p) := by
       intro h
       exact h.right h.left
-    example : p ∧ ¬q → ¬(p → q) := sorry
-    example : ¬p → (p → q) := sorry
+    example : p ∧ ¬q → ¬(p → q) := by
+      intro h hpq
+      exact h.right (hpq h.left)
+    example : (¬p ∨ q) → (p → q) := sorry
     example : (¬p ∨ q) → (p → q) := sorry
     example : p ∨ False ↔ p := sorry
     example : p ∧ False ↔ False := sorry
