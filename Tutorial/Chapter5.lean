@@ -60,7 +60,19 @@ section
         cases h with
         | inl hpq => exact And.intro hpq.left (Or.inl hpq.right)
         | inr hpr => exact And.intro hpr.left (Or.inr hpr.right)
-    example : p ∨ (q ∧ r) ↔ (p ∨ q) ∧ (p ∨ r) := sorry
+    example : p ∨ (q ∧ r) ↔ (p ∨ q) ∧ (p ∨ r) := by
+      apply Iff.intro
+      · intro h
+        cases h with
+        | inl hp => exact And.intro (Or.inl hp) (Or.inl hp)
+        | inr hqr => exact And.intro (Or.inr hqr.left) (Or.inr hqr.right)
+      · intro h
+        cases h.left with
+        | inl hp => exact Or.inl hp
+        | inr hq =>
+          cases h.right with
+          | inl hp => exact Or.inl hp
+          | inr hr => exact Or.inr (And.intro hq hr)
 
     -- other properties
     example : (p → (q → r)) ↔ (p ∧ q → r) := sorry
