@@ -81,7 +81,18 @@ section
         exact h hpq.left hpq.right
       · intro h hp hq
         exact h (And.intro hp hq)
-    example : ((p ∨ q) → r) ↔ (p → r) ∧ (q → r) := sorry
+    example : ((p ∨ q) → r) ↔ (p → r) ∧ (q → r) := by
+      apply Iff.intro
+      · intro h
+        apply And.intro
+        · intro hp
+          exact h (Or.inl hp)
+        · intro hq
+          exact h (Or.inr hq)
+      · intro h hpq
+        cases hpq with
+        | inl hp => exact h.left hp
+        | inr hq => exact h.right hq
     example : ¬(p ∨ q) ↔ ¬p ∧ ¬q := sorry
     example : ¬p ∨ ¬q → ¬(p ∧ q) := sorry
     example : ¬(p ∧ ¬p) := sorry
