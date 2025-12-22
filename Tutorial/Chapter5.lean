@@ -50,7 +50,16 @@ section
           | inr hr => exact Or.inr hr
 
     -- distributivity
-    example : p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r) := sorry
+    example : p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r) := by
+      apply Iff.intro
+      · intro h
+        cases h.right with
+        | inl hq => exact Or.inl (And.intro h.left hq)
+        | inr hr => exact Or.inr (And.intro h.left hr)
+      · intro h
+        cases h with
+        | inl hpq => exact And.intro hpq.left (Or.inl hpq.right)
+        | inr hpr => exact And.intro hpr.left (Or.inr hpr.right)
     example : p ∨ (q ∧ r) ↔ (p ∨ q) ∧ (p ∨ r) := sorry
 
     -- other properties
