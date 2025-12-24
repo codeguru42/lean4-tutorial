@@ -150,7 +150,21 @@ section
 
     variable (p q r : Prop)
 
-    example : (p → q ∨ r) → ((p → q) ∨ (p → r)) := sorry
+    example : (p → q ∨ r) → ((p → q) ∨ (p → r)) := by
+      intro h
+      cases em q with
+      | inl hq =>
+        apply Or.inl
+        intro hp
+        exact hq
+      | inr hnq =>
+        apply Or.inr
+        intro hp
+        apply (h hp).elim
+        · intro hq
+          exact absurd hq hnq
+        · intro hr
+          exact hr
     example : ¬(p ∧ q) → ¬p ∨ ¬q := sorry
     example : ¬(p → q) → p ∧ ¬q := sorry
     example : (p → q) → (¬p ∨ q) := sorry
