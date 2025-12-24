@@ -165,7 +165,17 @@ section
           exact absurd hq hnq
         · intro hr
           exact hr
-    example : ¬(p ∧ q) → ¬p ∨ ¬q := sorry
+    example : ¬(p ∧ q) → ¬p ∨ ¬q := by
+      intro h
+      cases (em p) with
+      | inl hp =>
+        cases (em q) with
+        | inl hq =>
+          exact absurd (And.intro hp hq) h
+        | inr hnq =>
+          exact Or.inr hnq
+      | inr hnp =>
+        exact Or.inl hnp
     example : ¬(p → q) → p ∧ ¬q := sorry
     example : (p → q) → (¬p ∨ q) := sorry
     example : (¬q → ¬p) → (p → q) := sorry
