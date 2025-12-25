@@ -234,7 +234,9 @@ section
         constructor
         · exact hp x
         · exact hq x
-    example : (∀ x, p x → q x) → (∀ x, p x) → (∀ x, q x) := sorry
+    example : (∀ x, p x → q x) → (∀ x, p x) → (∀ x, q x) := by
+      intro h hp x
+      apply h x (hp x)
     example : (∀ x, p x) ∨ (∀ x, q x) → ∀ x, p x ∨ q x := sorry
   end
 
