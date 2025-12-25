@@ -176,7 +176,20 @@ section
           exact Or.inr hnq
       | inr hnp =>
         exact Or.inl hnp
-    example : ¬(p → q) → p ∧ ¬q := sorry
+    example : ¬(p → q) → p ∧ ¬q := by
+      intro h
+      apply And.intro
+      · by_cases hp : p
+        · exact hp
+        · have hpq : p → q := by
+            intro hp'
+            exfalso
+            exact hp hp'
+          exact (h hpq).elim
+      · intro hq
+        apply h
+        intro _
+        exact hq
     example : (p → q) → (¬p ∨ q) := sorry
     example : (¬q → ¬p) → (p → q) := sorry
     example : p ∨ ¬p := sorry
