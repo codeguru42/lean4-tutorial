@@ -282,7 +282,12 @@ section
           exact Or.inl (hp x)
         · intro hr'
           exact Or.inr hr'
-    example : (∀ x, r → p x) ↔ (r → ∀ x, p x) := sorry
+    example : (∀ x, r → p x) ↔ (r → ∀ x, p x) := by
+      apply Iff.intro
+      · intro h hr x
+        exact h x hr
+      · intro h x hr
+        exact h hr x
   end
 
   section
