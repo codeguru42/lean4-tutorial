@@ -114,7 +114,7 @@ section
       intro ⟨hp, hnp⟩
       exact hnp hp
     example : p ∧ ¬q → ¬(p → q) := by
-      intro ⟨hp, hnq⟩, hpq
+      intro ⟨hp, hnq⟩ hpq
       exact hnq (hpq hp)
     example : ¬p → (p → q) := by
       intro hnp hp
