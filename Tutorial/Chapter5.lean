@@ -203,8 +203,15 @@ section
       by_cases hp : p
       · exact Or.inl hp
       · exact Or.inr hp
-    example : (((p → q) → p) → p) := sorry
-
+    example : (((p → q) → p) → p) := by
+      intro h
+      by_cases hp : p
+      · exact hp
+      · apply h
+        intro hp'
+        exfalso
+        apply hp
+        exact hp'
   end
 
   -- Prove ¬(p ↔ ¬p) without using classical logic.
