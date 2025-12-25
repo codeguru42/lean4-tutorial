@@ -222,7 +222,18 @@ section
     -- 1. Prove these equivalences:
     variable (α : Type) (p q : α → Prop)
 
-    example : (∀ x, p x ∧ q x) ↔ (∀ x, p x) ∧ (∀ x, q x) := sorry
+    example : (∀ x, p x ∧ q x) ↔ (∀ x, p x) ∧ (∀ x, q x) := by
+      apply Iff.intro
+      · intro h
+        constructor
+        · intro hx
+          exact (h hx).left
+        · intro hx
+          exact (h hx).right
+      · intro h hx
+        constructor
+        · exact h.left hx
+        · exact h.right hx
     example : (∀ x, p x → q x) → (∀ x, p x) → (∀ x, q x) := sorry
     example : (∀ x, p x) ∨ (∀ x, q x) → ∀ x, p x ∨ q x := sorry
   end
