@@ -181,11 +181,10 @@ section
       apply And.intro
       · by_cases hp : p
         · exact hp
-        · have hpq : p → q := by
-            intro hp'
-            exfalso
-            exact hp hp'
-          exact (h hpq).elim
+        · exfalso
+          apply h
+          intro hp'
+          contradiction
       · intro hq
         apply h
         intro _
