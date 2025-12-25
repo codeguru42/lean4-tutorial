@@ -194,7 +194,11 @@ section
       by_cases hp : p
       · exact Or.inr (h hp)
       · exact Or.inl hp
-    example : (¬q → ¬p) → (p → q) := sorry
+    example : (¬q → ¬p) → (p → q) := by
+      intro h hp
+      by_cases hq : q
+      · exact hq
+      · exact absurd hp (h hq)
     example : p ∨ ¬p := sorry
     example : (((p → q) → p) → p) := sorry
 
