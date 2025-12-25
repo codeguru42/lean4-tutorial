@@ -6,10 +6,10 @@ section
     -- commutativity of ∧ and ∨
     example : p ∧ q ↔ q ∧ p := by
       apply Iff.intro
-      · intro h
-        exact And.intro (And.right h) (And.left h)
-      · intro h
-        exact And.intro (And.right h) (And.left h)
+      · intro ⟨hp, hq⟩
+        exact And.intro hq hp
+      · intro ⟨hq, hp⟩
+        exact And.intro hp hq
     example : p ∨ q ↔ q ∨ p := by
       apply Iff.intro
       · intro h
@@ -28,10 +28,10 @@ section
     -- associativity of ∧ and ∨
     example : (p ∧ q) ∧ r ↔ p ∧ (q ∧ r) := by
       apply Iff.intro
-      · intro h
-        exact And.intro h.left.left (And.intro h.left.right h.right)
-      · intro h
-        exact And.intro (And.intro h.left h.right.left) h.right.right
+      · intro ⟨⟨ hp, hq⟩, hr⟩
+        exact And.intro hp (And.intro hq hr)
+      · intro ⟨hp, ⟨hq, hr⟩⟩
+        exact And.intro (And.intro hp hq) hr
     example : (p ∨ q) ∨ r ↔ p ∨ (q ∨ r) := by
       apply Iff.intro
       · intro h
@@ -52,10 +52,10 @@ section
     -- distributivity
     example : p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r) := by
       apply Iff.intro
-      · intro h
-        cases h.right with
-        | inl hq => exact Or.inl (And.intro h.left hq)
-        | inr hr => exact Or.inr (And.intro h.left hr)
+      · intro ⟨hp, hq⟩
+        cases hq with
+        | inl hq => exact Or.inl (And.intro hp hq)
+        | inr hr => exact Or.inr (And.intro hp hr)
       · intro h
         cases h with
         | inl hpq => exact And.intro hpq.left (Or.inl hpq.right)
@@ -66,19 +66,19 @@ section
         cases h with
         | inl hp => exact And.intro (Or.inl hp) (Or.inl hp)
         | inr hqr => exact And.intro (Or.inr hqr.left) (Or.inr hqr.right)
-      · intro h
-        cases h.left with
+      · intro ⟨hpq, hpr⟩
+        cases hpq with
         | inl hp => exact Or.inl hp
         | inr hq =>
-          cases h.right with
+          cases hpr with
           | inl hp => exact Or.inl hp
           | inr hr => exact Or.inr (And.intro hq hr)
 
     -- other properties
     example : (p → (q → r)) ↔ (p ∧ q → r) := by
       apply Iff.intro
-      · intro h hpq
-        exact h hpq.left hpq.right
+      · intro h ⟨hp, hq⟩
+        exact h hp hq
       · intro h hp hq
         exact h (And.intro hp hq)
     example : ((p ∨ q) → r) ↔ (p → r) ∧ (q → r) := by
@@ -111,11 +111,11 @@ section
       | inl hnp => exact hnp hpq.left
       | inr hnq => exact hnq hpq.right
     example : ¬(p ∧ ¬p) := by
-      intro h
-      exact h.right h.left
+      intro ⟨hp, hnp⟩
+      exact hnp hp
     example : p ∧ ¬q → ¬(p → q) := by
-      intro h hpq
-      exact h.right (hpq h.left)
+      intro ⟨hp, hnq⟩, hpq
+      exact hnq (hpq hp)
     example : ¬p → (p → q) := by
       intro hnp hp
       exact absurd hp hnp
@@ -230,10 +230,10 @@ section
           exact (h hx).left
         · intro hx
           exact (h hx).right
-      · intro h hx
+      · intro ⟨hp, hq⟩ hx
         constructor
-        · exact h.left hx
-        · exact h.right hx
+        · exact hp hx
+        · exact hq hx
     example : (∀ x, p x → q x) → (∀ x, p x) → (∀ x, q x) := sorry
     example : (∀ x, p x) ∨ (∀ x, q x) → ∀ x, p x ∨ q x := sorry
   end
