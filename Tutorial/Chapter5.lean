@@ -226,14 +226,14 @@ section
       apply Iff.intro
       · intro h
         constructor
-        · intro hx
-          exact (h hx).left
-        · intro hx
-          exact (h hx).right
-      · intro ⟨hp, hq⟩ hx
+        · intro x
+          exact (h x).left
+        · intro x
+          exact (h x).right
+      · intro ⟨hp, hq⟩ x
         constructor
-        · exact hp hx
-        · exact hq hx
+        · exact hp x
+        · exact hq x
     example : (∀ x, p x → q x) → (∀ x, p x) → (∀ x, q x) := sorry
     example : (∀ x, p x) ∨ (∀ x, q x) → ∀ x, p x ∨ q x := sorry
   end
