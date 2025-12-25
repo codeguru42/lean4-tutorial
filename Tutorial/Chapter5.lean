@@ -237,7 +237,13 @@ section
     example : (∀ x, p x → q x) → (∀ x, p x) → (∀ x, q x) := by
       intro h hp x
       apply h x (hp x)
-    example : (∀ x, p x) ∨ (∀ x, q x) → ∀ x, p x ∨ q x := sorry
+    example : (∀ x, p x) ∨ (∀ x, q x) → ∀ x, p x ∨ q x := by
+      intro h x
+      apply h.elim
+      · intro hp
+        exact Or.inl (hp x)
+      · intro hq
+        exact Or.inr (hq x)
   end
 
   section
