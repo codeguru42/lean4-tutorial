@@ -264,7 +264,24 @@ section
         exact h w
       · intro hr x
         exact hr
-    example : (∀ x, p x ∨ r) ↔ (∀ x, p x) ∨ r := sorry
+    example : (∀ x, p x ∨ r) ↔ (∀ x, p x) ∨ r := by
+      apply Iff.intro
+      · intro h
+        by_cases hr: r
+        · exact Or.inr hr
+        · apply Or.inl
+          intro x
+          apply (h x).elim
+          · intro hx
+            exact hx
+          · intro hr'
+            contradiction
+      · intro h x
+        apply h.elim
+        · intro hp
+          exact Or.inl (hp x)
+        · intro hr'
+          exact Or.inr hr'
     example : (∀ x, r → p x) ↔ (r → ∀ x, p x) := sorry
   end
 
