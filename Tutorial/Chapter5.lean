@@ -257,7 +257,13 @@ section
     variable (α : Type) (p q : α → Prop)
     variable (r : Prop)
 
-    example : α → ((∀ x : α, r) ↔ r) := sorry
+    example : α → ((∀ x : α, r) ↔ r) := by
+      intro w
+      apply Iff.intro
+      · intro h
+        exact h w
+      · intro hr x
+        exact hr
     example : (∀ x, p x ∨ r) ↔ (∀ x, p x) ∨ r := sorry
     example : (∀ x, r → p x) ↔ (r → ∀ x, p x) := sorry
   end
