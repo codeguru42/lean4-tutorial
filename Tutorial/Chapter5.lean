@@ -350,7 +350,9 @@ section
       intro h
       cases h with
       | intro x hr => exact hr
-    example (a : α) : r → (∃ x : α, r) := sorry
+    example (a : α) : r → (∃ _ : α, r) := by
+      intro h
+      exists a
     example : (∃ x, p x ∧ r) ↔ (∃ x, p x) ∧ r := sorry
     example : (∃ x, p x ∨ q x) ↔ (∃ x, p x) ∨ (∃ x, q x) := sorry
 
