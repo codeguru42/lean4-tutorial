@@ -353,7 +353,21 @@ section
     example (a : α) : r → (∃ _ : α, r) := by
       intro h
       exists a
-    example : (∃ x, p x ∧ r) ↔ (∃ x, p x) ∧ r := sorry
+    example : (∃ x, p x ∧ r) ↔ (∃ x, p x) ∧ r := by
+      apply Iff.intro
+      · intro h
+        cases h with
+        | intro w hw =>
+          apply And.intro
+          · exists w
+            exact hw.left
+          · exact hw.right
+      · intro h
+        cases h with
+        | intro hp hr =>
+          cases hp with
+          | intro w hw =>
+            exists w
     example : (∃ x, p x ∨ q x) ↔ (∃ x, p x) ∨ (∃ x, q x) := sorry
 
     example : (∀ x, p x) ↔ ¬ (∃ x, ¬ p x) := sorry
