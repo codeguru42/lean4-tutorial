@@ -368,7 +368,30 @@ section
           cases hp with
           | intro w hw =>
             exists w
-    example : (∃ x, p x ∨ q x) ↔ (∃ x, p x) ∨ (∃ x, q x) := sorry
+    example : (∃ x, p x ∨ q x) ↔ (∃ x, p x) ∨ (∃ x, q x) := by
+      apply Iff.intro
+      · intro h
+        cases h with
+        | intro x hpq =>
+          cases hpq with
+          | inl hp =>
+            apply Or.inl
+            exists x
+          | inr hq =>
+            apply Or.inr
+            exists x
+      · intro h
+        cases h with
+        | inl hp =>
+          cases hp with
+          | intro w hw =>
+            exists w
+            exact Or.inl hw
+        | inr hq =>
+          cases hq with
+          | intro w hw =>
+            exists w
+            exact Or.inr hw
 
     example : (∀ x, p x) ↔ ¬ (∃ x, ¬ p x) := sorry
     example : (∃ x, p x) ↔ ¬ (∀ x, ¬ p x) := sorry
