@@ -393,7 +393,19 @@ section
             exists w
             exact Or.inr hw
 
-    example : (∀ x, p x) ↔ ¬ (∃ x, ¬ p x) := sorry
+    example : (∀ x, p x) ↔ ¬ (∃ x, ¬ p x) := by
+      apply Iff.intro
+      · intro h hnp
+        cases hnp with
+        | intro w hw =>
+          exact hw (h w)
+      · intro h x
+        cases em (p x)with
+        | inl hp => exact hp
+        | inr hnp =>
+          exfalso
+          apply h
+          exists x
     example : (∃ x, p x) ↔ ¬ (∀ x, ¬ p x) := sorry
     example : (¬ ∃ x, p x) ↔ (∀ x, ¬ p x) := sorry
     example : (¬ ∀ x, p x) ↔ (∃ x, ¬ p x) := sorry
