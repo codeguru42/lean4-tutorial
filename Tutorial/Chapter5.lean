@@ -400,10 +400,9 @@ section
         | intro w hw =>
           exact hw (h w)
       · intro h x
-        cases em (p x)with
-        | inl hp => exact hp
-        | inr hnp =>
-          exfalso
+        by_cases hp : p x
+        · exact hp
+        · exfalso
           apply h
           exists x
     example : (∃ x, p x) ↔ ¬ (∀ x, ¬ p x) := by
