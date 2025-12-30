@@ -152,17 +152,15 @@ section
 
     example : (p → q ∨ r) → ((p → q) ∨ (p → r)) := by
       intro h
-      cases em q with
-      | inl hq =>
-        apply Or.inl
+      by_cases hq : q
+      · apply Or.inl
         intro hp
         exact hq
-      | inr hnq =>
-        apply Or.inr
+      · apply Or.inr
         intro hp
         apply (h hp).elim
-        · intro hq
-          exact absurd hq hnq
+        · intro hq'
+          contradiction
         · intro hr
           exact hr
     example : ¬(p ∧ q) → ¬p ∨ ¬q := by
