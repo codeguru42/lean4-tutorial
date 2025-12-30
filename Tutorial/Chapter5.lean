@@ -406,7 +406,20 @@ section
           exfalso
           apply h
           exists x
-    example : (∃ x, p x) ↔ ¬ (∀ x, ¬ p x) := sorry
+    example : (∃ x, p x) ↔ ¬ (∀ x, ¬ p x) := by
+      apply Iff.intro
+      · intro h hnp
+        cases h with
+        | intro w hw =>
+          exact hnp w hw
+      · intro h
+        by_cases hx : ∃ x, p x
+        · exact hx
+        · exfalso
+          apply h
+          intro x hp
+          apply hx
+          exists x
     example : (¬ ∃ x, p x) ↔ (∀ x, ¬ p x) := sorry
     example : (¬ ∀ x, p x) ↔ (∃ x, ¬ p x) := sorry
 
