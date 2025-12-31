@@ -13,13 +13,13 @@ section
     example : p ∨ q ↔ q ∨ p := by
       apply Iff.intro
       · intro h
-        apply Or.elim h
+        apply h.elim
         case left =>
           exact Or.inr
         case right =>
           exact Or.inl
       · intro h
-        apply Or.elim h
+        apply h.elim
         case left =>
           exact Or.inr
         case right =>
