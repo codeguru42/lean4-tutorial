@@ -426,7 +426,24 @@ section
         apply hnp.elim
         intro x hp
         exact h x hp
-    example : (¬ ∀ x, p x) ↔ (∃ x, ¬ p x) := sorry
+    example : (¬ ∀ x, p x) ↔ (∃ x, ¬ p x) := by
+      apply Iff.intro
+      · intro h
+        by_cases h' : ∃ x, ¬p x
+        · exact h'
+        · exfalso
+          apply h
+          intro x
+          by_cases h'' : p x
+          · exact h''
+          · exfalso
+            apply h'
+            exists x
+      · intro h
+        cases h with
+        | intro w hnp =>
+          intro hp
+          exact hnp (hp w)
 
     example : (∀ x, p x → r) ↔ (∃ x, p x) → r := sorry
     example (a : α) : (∃ x, p x → r) ↔ (∀ x, p x) → r := sorry
