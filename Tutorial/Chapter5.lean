@@ -417,7 +417,15 @@ section
           intro x hp
           apply hx
           exists x
-    example : (¬ ∃ x, p x) ↔ (∀ x, ¬ p x) := sorry
+    example : (¬ ∃ x, p x) ↔ (∀ x, ¬ p x) := by
+      apply Iff.intro
+      · intro h x hnp
+        apply h
+        exists x
+      · intro h hnp
+        apply hnp.elim
+        intro x hp
+        exact h x hp
     example : (¬ ∀ x, p x) ↔ (∃ x, ¬ p x) := sorry
 
     example : (∀ x, p x → r) ↔ (∃ x, p x) → r := sorry
