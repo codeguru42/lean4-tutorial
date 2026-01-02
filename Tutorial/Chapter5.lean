@@ -445,7 +445,14 @@ section
           intro hp
           exact hnp (hp w)
 
-    example : (∀ x, p x → r) ↔ (∃ x, p x) → r := sorry
+    example : (∀ x, p x → r) ↔ (∃ x, p x) → r := by
+      apply Iff.intro
+      · intro h hx
+        cases hx with
+        | intro x hp => exact h x hp
+      · intro h x hp
+        apply h
+        exists x
     example (a : α) : (∃ x, p x → r) ↔ (∀ x, p x) → r := sorry
     example (a : α) : (∃ x, r → p x) ↔ (r → ∃ x, p x) := sorry
   end
