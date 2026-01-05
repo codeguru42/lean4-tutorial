@@ -453,7 +453,28 @@ section
       · intro h x hp
         apply h
         exists x
-    example (a : α) : (∃ x, p x → r) ↔ (∀ x, p x) → r := sorry
+    example (a : α) : (∃ x, p x → r) ↔ (∀ x, p x) → r := by
+      apply Iff.intro
+      · intro h hx
+        cases h with
+        | intro x hp => exact hp (hx x)
+      · intro h
+        by_cases hx : ∀x, p x
+        · exists a
+          intro _
+          exact h hx
+        · by_cases hx' : ∃ x, p x → r
+          · exact hx'
+          · exfalso
+            apply hx
+            intro x
+            by_cases hp : p x
+            · exact hp
+            · exfalso
+              apply hx'
+              exists x
+              intro hp'
+              contradiction
     example (a : α) : (∃ x, r → p x) ↔ (r → ∃ x, p x) := sorry
   end
 end
