@@ -475,6 +475,22 @@ section
               exists x
               intro hp'
               contradiction
-    example (a : α) : (∃ x, r → p x) ↔ (r → ∃ x, p x) := sorry
+    example (a : α) : (∃ x, r → p x) ↔ (r → ∃ x, p x) := by
+      apply Iff.intro
+      · intro h hr
+        cases h with
+        | intro w hr' =>
+          exists w
+          exact hr' hr
+      · intro h
+        by_cases hr : r
+        · cases h hr with
+          | intro w hp =>
+            exists w
+            intro
+            exact hp
+        · exists a
+          intro hr
+          contradiction
   end
 end
