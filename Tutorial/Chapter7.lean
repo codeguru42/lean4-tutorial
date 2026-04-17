@@ -3,6 +3,18 @@ As exercises, we encourage you to develop a notion of composition for
 partial functions from α to β and β to γ, and show that it behaves as
 expected.
 -/
+section
+  variable (α β γ : Type)
+
+  def partial_compose (f : Option β → Option γ) (g : Option α → Option β) : (Option α → Option γ) :=
+    fun x : Option α =>
+      match g x with
+      | none => none
+      | some x' =>
+        match f x' with
+        | none => none
+        | some y' => some y'
+end
 
 /-
 We also encourage you to show that Bool and Nat are inhabited,
