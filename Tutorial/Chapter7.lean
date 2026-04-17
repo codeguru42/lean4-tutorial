@@ -1,4 +1,16 @@
 /-
+As exercises, we encourage you to develop a notion of composition for
+partial functions from α to β and β to γ, and show that it behaves as
+expected.
+-/
+
+/-
+We also encourage you to show that Bool and Nat are inhabited,
+that the product of two inhabited types is inhabited, and that the type
+of functions to an inhabited type is inhabited.
+-/
+
+/-
 1. Try defining other operations on the natural numbers, such as
 multiplication, the predecessor function (with pred 0 = 0), truncated
 subtraction (with n - m = 0 when m is greater than or equal to n), and
