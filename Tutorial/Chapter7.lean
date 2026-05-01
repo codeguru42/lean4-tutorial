@@ -23,6 +23,52 @@ of functions to an inhabited type is inhabited.
 -/
 
 /-
+As an exercise, prove the following:
+-/
+
+namespace Hidden
+inductive List (α : Type u) where
+| nil  : List α
+| cons : α → List α → List α
+namespace List
+def append (as bs : List α) : List α :=
+ match as with
+ | nil       => bs
+ | cons a as => cons a (append as bs)
+theorem nil_append (as : List α) : append nil as = as :=
+ rfl
+theorem cons_append (a : α) (as bs : List α)
+                    : append (cons a as) bs = cons a (append as bs) :=
+ rfl
+namespace Hidden
+inductive List (α : Type u) where
+| nil  : List α
+| cons : α → List α → List α
+namespace List
+def append (as bs : List α) : List α :=
+ match as with
+ | nil       => bs
+ | cons a as => cons a (append as bs)
+theorem nil_append (as : List α) : append nil as = as :=
+ rfl
+theorem cons_append (a : α) (as bs : List α)
+                    : append (cons a as) bs = cons a (append as bs) :=
+ rfl
+theorem append_nil (as : List α) :
+    append as nil = as :=
+  sorry
+
+theorem append_assoc (as bs cs : List α) :
+    append (append as bs) cs = append as (append bs cs) :=
+  sorry
+end List
+end Hidden
+
+/-
+Try also defining the function length : {α : Type u} → List α → Nat that returns the length of a list, and prove that it behaves as expected (for example, length (append as bs) = length as + length bs).
+-/
+
+/-
 1. Try defining other operations on the natural numbers, such as
 multiplication, the predecessor function (with pred 0 = 0), truncated
 subtraction (with n - m = 0 when m is greater than or equal to n), and
